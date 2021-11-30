@@ -1,7 +1,7 @@
 # Личный проект «Типотека» [![Build status][travis-image]][travis-url]
 
 * Студент: [Denys Lysenko](https://up.htmlacademy.ru/nodejs/3/user/1977093).
-* Наставник: Дмитрий Мирошниченко.
+* Наставник: [Дмитрий Мирошниченко](https://htmlacademy.ru/profile/id591417).
 
 ---
 
