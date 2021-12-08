@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/denysLysenko/1977093-typoteka-3#readme",
   "devDependencies": {
+    "chalk": "3.0.0",
     "eslint": "8.3.0",
-    "eslint-config-htmlacademy": "0.6.0"
+    "eslint-config-htmlacademy": "0.6.0",
+    "moment": "2.29.1"
   }
 }
