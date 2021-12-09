@@ -12,7 +12,7 @@ const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
 const FILE_NAME = `mocks.json`;
 
-const generateOffers = async (count) => {
+const generateOffers = (count) => {
   return Array(count).fill({}).map(() => ({
     title: titles[getRandomInt(0, titles.length - 1)],
     announce: shuffle(descriptions).slice(0, getRandomInt(1, 5)).join(` `),
@@ -28,10 +28,11 @@ const saveOffers = async (data) => {
   try {
     await fs.writeFile(rootFolder, JSON.stringify(data));
     console.log(chalk.green(`Operation success. File created.`));
+    process.exit(ExitCode.SUCCESS);
   } catch (err) {
     console.error(chalk.red(`Can't write data to file...`));
     console.info(chalk.blue(`Error details:\n`), err);
-    process.exit(ExitCode.error);
+    process.exit(ExitCode.ERROR);
   }
 };
 
@@ -45,7 +46,7 @@ module.exports = {
       return;
     }
 
-    const offers = await generateOffers(offersCount);
+    const offers = generateOffers(offersCount);
     await saveOffers(offers);
   }
 };
