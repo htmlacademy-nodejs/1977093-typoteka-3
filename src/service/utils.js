@@ -2,20 +2,24 @@
 
 const moment = require(`moment`);
 
-module.exports.getRandomInt = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
+module.exports = class Utils {
+  static getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
 
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-module.exports.shuffle = (someArray) => {
-  for (let i = someArray.length - 1; i > 0; i--) {
-    const randomPosition = Math.floor(Math.random() * i);
-    [someArray[i], someArray[randomPosition]] = [someArray[randomPosition], someArray[i]];
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  return someArray;
-};
+  static shuffle(someArray) {
+    for (let i = someArray.length - 1; i > 0; i--) {
+      const randomPosition = Math.floor(Math.random() * i);
+      [someArray[i], someArray[randomPosition]] = [someArray[randomPosition], someArray[i]];
+    }
 
-module.exports.formatDate = (date, format = `YYYY-MM-DD hh:mm:ss`) => moment(date).format(format);
+    return someArray;
+  }
+
+  static formatDate(date, format = `YYYY-MM-DD hh:mm:ss`) {
+    return moment(date).format(format);
+  }
+};
