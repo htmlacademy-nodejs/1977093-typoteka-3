@@ -14,7 +14,7 @@ const FILE_NAME = `mocks.json`;
 const FilePath = {
   TITLES: `./data/titles.txt`,
   CATEGORIES: `./data/categories.txt`,
-  DESCRIPTIONS: `./data/descriptions.txt`,
+  SENTENCES: `./data/sentences.txt`,
 };
 
 const readContent = async (filePath) => {
@@ -30,16 +30,16 @@ const readContent = async (filePath) => {
 };
 
 const generateOffers = async (count) => {
-  const [titles, categories, descriptions] = await Promise.all([
+  const [titles, categories, sentences] = await Promise.all([
     readContent(FilePath.TITLES),
     readContent(FilePath.CATEGORIES),
-    readContent(FilePath.DESCRIPTIONS),
+    readContent(FilePath.SENTENCES),
   ]);
 
   return Array(count).fill({}).map(() => ({
     title: titles[getRandomInt(0, titles.length - 1)],
-    announce: shuffle(descriptions).slice(0, getRandomInt(1, 5)).join(` `),
-    fullText: shuffle(descriptions).slice(0, getRandomInt(5, descriptions.length - 1)).join(` `),
+    announce: shuffle(sentences).slice(0, getRandomInt(1, 5)).join(` `),
+    fullText: shuffle(sentences).slice(0, getRandomInt(5, sentences.length - 1)).join(` `),
     createdDate: formatDate(moment().subtract(getRandomInt(0, 90), `days`)),
     category: shuffle(categories).slice(0, getRandomInt(1, categories.length - 1)),
   }));
