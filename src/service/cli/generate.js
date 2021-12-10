@@ -11,9 +11,11 @@ const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
 
 const FILE_NAME = `mocks.json`;
-const FILE_TITLES_PATH = `./data/titles.txt`;
-const FILE_CATEGORIES_PATH = `./data/categories.txt`;
-const FILE_DESCRIPTIONS_PATH = `./data/descriptions.txt`;
+const FilePath = {
+  TITLES: `./data/titles.txt`,
+  CATEGORIES: `./data/categories.txt`,
+  DESCRIPTIONS: `./data/descriptions.txt`,
+};
 
 const readContent = async (filePath) => {
   filePath = path.resolve(__dirname, filePath);
@@ -28,9 +30,11 @@ const readContent = async (filePath) => {
 };
 
 const generateOffers = async (count) => {
-  const titles = await readContent(FILE_TITLES_PATH);
-  const categories = await readContent(FILE_CATEGORIES_PATH);
-  const descriptions = await readContent(FILE_DESCRIPTIONS_PATH);
+  const [titles, categories, descriptions] = await Promise.all([
+    readContent(FilePath.TITLES),
+    readContent(FilePath.CATEGORIES),
+    readContent(FilePath.DESCRIPTIONS),
+  ]);
 
   return Array(count).fill({}).map(() => ({
     title: titles[getRandomInt(0, titles.length - 1)],
@@ -50,7 +54,7 @@ const saveOffers = async (data) => {
     process.exit(ExitCode.SUCCESS);
   } catch (err) {
     console.error(chalk.red(`Can't write data to file...`));
-    console.info(chalk.blue(`Error details:\n`), err);
+    console.info(chalk.red(`Error details:\n`), err);
     process.exit(ExitCode.ERROR);
   }
 };
