@@ -7,6 +7,7 @@ const fs = require(`fs`).promises;
 
 const DEFAULT_PORT = 3000;
 const FILE_NAME = `mocks.json`;
+const MOCKS_CACHE = new Map();
 
 const HttpCode = {
   OK: 200,
@@ -20,9 +21,7 @@ const handleRequests = async (req, res) => {
   switch (req.url) {
     case `/`:
       try {
-        const filePath = path.resolve(`./`, FILE_NAME);
-        const content = await fs.readFile(filePath, `utf8`);
-        const mocks = JSON.parse(content);
+        const mocks = await readFile(FILE_NAME);
         const message = mocks.map((i) => `<li>${i.title}</li>`).join(``);
 
         await sendResponse(res, HttpCode.OK, `<ul>${message}</ul>`);
@@ -63,6 +62,24 @@ const sendResponse = (res, statusCode, message) => {
   });
 
   res.end(template);
+};
+
+const readFile = async (fileName) => {
+  if (MOCKS_CACHE.has(fileName)) {
+    return MOCKS_CACHE.get(fileName);
+  }
+
+  try {
+    const filePath = path.resolve(`./`, fileName);
+    const content = await fs.readFile(filePath, `utf8`);
+    const mocks = JSON.parse(content);
+    MOCKS_CACHE.set(fileName, mocks);
+
+    return mocks;
+  } catch (err) {
+    console.error(chalk.red(err));
+    return [];
+  }
 };
 
 module.exports = {
