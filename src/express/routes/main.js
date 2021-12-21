@@ -20,8 +20,4 @@ mainRoute.get(`/search`, (req, res) => {
   res.send(req.originalUrl);
 });
 
-mainRoute.get(`/categories`, (req, res) => {
-  res.send(req.originalUrl);
-});
-
 module.exports = mainRoute;
