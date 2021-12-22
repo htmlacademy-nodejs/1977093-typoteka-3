@@ -20,7 +20,7 @@ const startServer = (port) => {
 
   app.listen(port, () => {
     console.info(chalk.green(`Server started on port: ${port}`));
-  })
+  });
 };
 
 const getRoutes = () => {
@@ -36,7 +36,7 @@ const getRoutes = () => {
   });
 
   return router;
-}
+};
 
 const readFile = async (fileName) => {
   if (MOCKS_CACHE.has(fileName)) {
