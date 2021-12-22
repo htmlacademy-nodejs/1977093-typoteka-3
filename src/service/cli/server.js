@@ -1,6 +1,7 @@
 'use strict';
 
-const http = require(`http`);
+const express = require(`express`);
+const {Router} = require(`express`);
 const path = require(`path`);
 const chalk = require(`chalk`);
 const fs = require(`fs`).promises;
@@ -15,54 +16,33 @@ const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-const handleRequests = async (req, res) => {
-  const notFoundMessageText = `Not found`;
-
-  switch (req.url) {
-    case `/`:
-      try {
-        const mocks = await readFile(FILE_NAME);
-        const message = mocks.map((i) => `<li>${i.title}</li>`).join(``);
-
-        await sendResponse(res, HttpCode.OK, `<ul>${message}</ul>`);
-      } catch (err) {
-        await sendResponse(res, HttpCode.NOT_FOUND, notFoundMessageText);
-      }
-      break;
-    default:
-      await sendResponse(res, HttpCode.NOT_FOUND, notFoundMessageText);
-  }
-};
-
 const startServer = (port) => {
-  const server = http.createServer(handleRequests);
+  const app = express();
+  const routes = getRoutes();
 
-  server
-    .listen(port)
-    .on(`listening`, () => {
-      console.info(chalk.green(`Server started on port: ${port}`));
-    })
-    .on(`error`, ({message}) => {
-      console.error(chalk.red(`Start server error: ${message}`));
-    });
+
+  app.use(express.json());
+  app.use(routes);
+
+  app.listen(port, () => {
+    console.info(chalk.green(`Server started on port: ${port}`));
+  })
 };
 
-const sendResponse = (res, statusCode, message) => {
-  const template = `
-    <!Doctype html>
-      <html lang="ru">
-      <head>
-        <title>With love from Node</title>
-      </head>
-      <body>${message}</body>
-    </html>`.trim();
+const getRoutes = () => {
+  const router = new Router();
 
-  res.writeHead(statusCode, {
-    'Content-Type': `text/html; charset=UTF-8`,
+  router.get(`/posts`, async (req, res) => {
+    try {
+      const mocks = await readFile(FILE_NAME);
+      res.send(mocks);
+    } catch (err) {
+      res.send([]);
+    }
   });
 
-  res.end(template);
-};
+  return router;
+}
 
 const readFile = async (fileName) => {
   if (MOCKS_CACHE.has(fileName)) {
@@ -72,10 +52,9 @@ const readFile = async (fileName) => {
   try {
     const filePath = path.resolve(`./`, fileName);
     const content = await fs.readFile(filePath, `utf8`);
-    const mocks = JSON.parse(content);
-    MOCKS_CACHE.set(fileName, mocks);
+    MOCKS_CACHE.set(fileName, content);
 
-    return mocks;
+    return content;
   } catch (err) {
     console.error(chalk.red(err));
     return [];
