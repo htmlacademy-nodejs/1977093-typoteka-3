@@ -5,11 +5,11 @@ const {Router} = require(`express`);
 const myRoute = new Router();
 
 myRoute.get(`/`, (req, res) => {
-  res.send(req.originalUrl);
+  res.render(`pages/my`);
 });
 
 myRoute.get(`/comments`, (req, res) => {
-  res.send(req.originalUrl);
+  res.render(`pages/comments`);
 });
 
 module.exports = myRoute;
