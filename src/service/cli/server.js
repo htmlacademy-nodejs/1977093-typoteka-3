@@ -10,12 +10,6 @@ const DEFAULT_PORT = 3000;
 const FILE_NAME = `mocks.json`;
 const MOCKS_CACHE = new Map();
 
-const HttpCode = {
-  OK: 200,
-  NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500,
-};
-
 const startServer = (port) => {
   const app = express();
   const routes = getRoutes();
