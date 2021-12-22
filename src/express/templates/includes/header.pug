@@ -1,5 +1,5 @@
 header.header
-  if admin
+  if globalVariables.admin
     a.header__logo.logo(href='#')
       img.logo__image(src='/img/icons/logo-image-only.svg' alt='логотип Тайпотеки')
       span.logo__name Типотека
@@ -16,7 +16,7 @@ header.header
         li.navigation__item
           a(href='main.html') Пункт меню
     a.header__search.button.button--search(href='#' aria-label='поиск по сайту')
-  else if authorised
+  else if globalVariables.authorized
     a.header__logo.logo(href='#')
       img.logo__image(src='/img/icons/logo-image-only.svg' alt='логотип Тайпотеки')
       span.logo__name Типотека

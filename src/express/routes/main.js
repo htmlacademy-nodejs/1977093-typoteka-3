@@ -5,7 +5,11 @@ const {Router} = require(`express`);
 const mainRoute = new Router();
 
 mainRoute.get(`/`, (req, res) => {
-  res.render(`pages/main`);
+  res.render(`pages/main`, {
+    mainPageEmpty: false,
+    mainPageMostDiscussedBlockContentPresent: true,
+    mainPgeLastCommentsBlockContentPresent: true,
+  });
 });
 
 mainRoute.get(`/register`, (req, res) => {

@@ -19,7 +19,7 @@ articlesRoute.get(`/add`, (req, res) => {
 });
 
 articlesRoute.get(`/:id`, (req, res) => {
-  res.render(`pages/post-detail`);
+  res.render(`pages/post-detail`, {articleHasPhoto: true});
 });
 
 module.exports = articlesRoute;

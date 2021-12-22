@@ -11,14 +11,6 @@ html(lang='ru')
     link(rel='preload' href='/fonts/SFProDisplay-Regular.woff2' as='font' crossorigin='anonymous')
     link(rel='stylesheet' href='/css/style.min.css')
 
-  block variables
-    - var authorised = false
-    - var admin = false
-    - var mainPageEmpty = false
-    - var mainPageMostDiscussedBlockContentPresent = true
-    - var mainPgeLastCommentsBlockContentPresent = true
-    - var articleHasPhoto = true
-
   body
     .wrapper
       include includes/header
