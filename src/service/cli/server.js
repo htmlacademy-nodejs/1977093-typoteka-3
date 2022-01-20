@@ -29,6 +29,7 @@ const getRoutes = () => {
   router.get(`/posts`, async (req, res) => {
     try {
       const mocks = await readFile(FILE_NAME);
+
       res.send(mocks);
     } catch (err) {
       res.send([]);
