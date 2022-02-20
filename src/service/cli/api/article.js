@@ -60,7 +60,7 @@ module.exports = (router, articleService, commentsService) => {
 
     const createdComment = commentsService.create(article, comment);
 
-    res.status(HttpCode.OK).json(createdComment);
+    res.status(HttpCode.CREATED).json(createdComment);
   });
 
   route.delete(`/:articleId/comments/:commentId`, [articleExist(articleService), commentExist(commentsService)], (req, res) => {
