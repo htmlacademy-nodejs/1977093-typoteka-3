@@ -2,6 +2,10 @@
 
 const chalk = require(`chalk`);
 
+const {getLogger} = require(`../lib/logger`);
+
+const logger = getLogger({name: `api`});
+
 module.exports = {
   name: `--help`,
   run() {
@@ -16,6 +20,6 @@ module.exports = {
       --generate <count> формирует файл mocks.json
     `;
 
-    console.info(chalk.gray(text));
+    logger.info(chalk.gray(text));
   }
 };

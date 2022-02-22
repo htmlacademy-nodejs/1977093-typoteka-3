@@ -1,6 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
+
 const {HttpCode} = require(`../../constants`);
 
 const route = new Router();
@@ -12,7 +13,9 @@ module.exports = (router, service) => {
     const {query} = req.query;
     const articles = service.findAll(query);
 
-    if (!articles) {
+    if (!query) {
+      return res.status(HttpCode.BAD_REQUEST).send();
+    } else if (!articles) {
       return res.status(HttpCode.NOT_FOUND).send();
     }
 
