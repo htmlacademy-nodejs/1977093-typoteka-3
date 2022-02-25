@@ -2,15 +2,16 @@
 
 const {Router} = require(`express`);
 const {HttpCode} = require(`../../constants`);
+
 const articleValidator = require(`../../middlewares/article-validator`);
 const commentValidator = require(`../../middlewares/comment-validator`);
 const articleExist = require(`../../middlewares/article-exist`);
 const commentExist = require(`../../middlewares/comment-exist`);
 
-const route = new Router();
+module.exports = (app, articleService, commentsService) => {
+  const route = new Router();
 
-module.exports = (router, articleService, commentsService) => {
-  router.use(`/articles`, route);
+  app.use(`/articles`, route);
 
   route.get(`/`, (req, res) => {
     const articles = articleService.findAll();
@@ -60,7 +61,7 @@ module.exports = (router, articleService, commentsService) => {
 
     const createdComment = commentsService.create(article, comment);
 
-    res.status(HttpCode.OK).json(createdComment);
+    res.status(HttpCode.CREATED).json(createdComment);
   });
 
   route.delete(`/:articleId/comments/:commentId`, [articleExist(articleService), commentExist(commentsService)], (req, res) => {

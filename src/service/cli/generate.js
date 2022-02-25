@@ -5,11 +5,14 @@ const moment = require(`moment`);
 const path = require(`path`);
 const chalk = require(`chalk`);
 const {nanoid} = require(`nanoid`);
+
 const {ExitCode, MAX_ID_LENGTH} = require(`../constants`);
 const {getRandomInt, shuffle, formatDate} = require(`../utils`);
+const {getLogger} = require(`../lib/logger`);
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
+const logger = getLogger({name: `api`});
 
 const FILE_NAME = `mocks.json`;
 const FilePath = {
@@ -26,7 +29,7 @@ const readContent = async (filePath) => {
     const content = await fs.readFile(filePath, `utf8`);
     return content.trim().split(`\n`);
   } catch (err) {
-    console.error(chalk.red(err));
+    logger.error(chalk.red(err));
     return [];
   }
 };
@@ -55,11 +58,11 @@ const saveArticles = async (data) => {
 
   try {
     await fs.writeFile(rootFolder, JSON.stringify(data));
-    console.log(chalk.green(`Operation success. File created.`));
+    logger.log(chalk.green(`Operation success. File created.`));
     process.exit(ExitCode.SUCCESS);
   } catch (err) {
-    console.error(chalk.red(`Can't write data to file...`));
-    console.info(chalk.red(`Error details:\n`), err);
+    logger.error(chalk.red(`Can't write data to file...`));
+    logger.info(chalk.red(`Error details:\n`), err);
     process.exit(ExitCode.ERROR);
   }
 };
@@ -77,7 +80,7 @@ module.exports = {
     const articlesCount = Number(count) || DEFAULT_COUNT;
 
     if (articlesCount > MAX_COUNT) {
-      console.error(chalk.red(`Не больше 1000 объявлений`));
+      logger.error(chalk.red(`Не больше 1000 объявлений`));
       return;
     }
 
